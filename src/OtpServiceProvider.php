@@ -1,12 +1,10 @@
 <?php
 
-namespace Ichtrojan\Location;
+namespace Ichtrojan\Otp;
 
-use Carbon\Carbon;
-use Ichtrojan\Otp\Otp\Otp;
 use Illuminate\Support\ServiceProvider;
 
-class OtpServiceProvider extends ServiceProvider implements Otp
+class OtpServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
@@ -15,7 +13,6 @@ class OtpServiceProvider extends ServiceProvider implements Otp
      */
     public function register()
     {
-
     }
 
     /**
