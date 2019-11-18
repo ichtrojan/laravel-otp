@@ -56,7 +56,7 @@ class Otp extends Facade
     {
         $otp = Model::where('identifier', $identifier)->where('token', $token)->first();
 
-        if (!$otp->exists()) {
+        if ($otp == null) {
             return response()->json([
                 'status' => false,
                 'message' => 'OTP does not exist'
@@ -65,7 +65,7 @@ class Otp extends Facade
             if ($otp->valid == true) {
                 $carbon = new Carbon;
                 $now = $carbon->now();
-                $validity = $otp->created_at->addMinutes(10);
+                $validity = $otp->created_at->addMinutes($otp->validity);
 
                 if (strtotime($validity) < strtotime($now)) {
                     $otp->valid = false;
