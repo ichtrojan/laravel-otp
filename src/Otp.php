@@ -60,7 +60,7 @@ class Otp extends Facade
             return response()->json([
                 'status' => false,
                 'message' => 'OTP does not exist'
-            ], 201);
+            ]);
         } else {
             if ($otp->valid == true) {
                 $carbon = new Carbon;
@@ -74,7 +74,7 @@ class Otp extends Facade
                     return response()->json([
                         'status' => false,
                         'message' => 'OTP Expired'
-                    ], 200);
+                    ]);
                 } else {
                     $otp->valid = false;
                     $otp->save();
@@ -82,13 +82,13 @@ class Otp extends Facade
                     return response()->json([
                         'status' => true,
                         'message' => 'OTP is valid'
-                    ], 201);
+                    ]);
                 }
             } else {
                 return response()->json([
                     'status' => false,
                     'message' => 'OTP is not valid'
-                ], 201);
+                ]);
             }
         }
     }
