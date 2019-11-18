@@ -2,7 +2,7 @@
 
 ## Introduction 🖖
 
-This is a simple pakage to generate and validate OTPs (One Time Passwords). This can be implemented mostly in Authentication.
+This is a simple package to generate and validate OTPs (One Time Passwords). This can be implemented mostly in Authentication.
 
 ## Installation 💽
 
@@ -85,7 +85,7 @@ Otp::generate(string $identifier, int $digits = 4, int $validity = 10)
 Otp::generate('michael@okoh.co.uk', 6, 15);
 ```
 
-This will generate a six digit OTP that will e valid for 15 minutes and the success response will be:
+This will generate a six digit OTP that will be valid for 15 minutes and the success response will be:
 
 ```json
 {
