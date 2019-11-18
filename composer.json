@@ -18,7 +18,10 @@
         "laravel": {
             "providers": [
                 "Ichtrojan\\Otp\\OtpServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "Otp": "Ichtrojan\\Otp\\Otp"
+            }
         }
     },
     "require": {},
