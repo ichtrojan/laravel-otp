@@ -16,7 +16,7 @@ class CreateOtpsTable extends Migration
         Schema::create('otps', function (Blueprint $table) {
             $table->increments('id')->index();
             $table->string('identifier');
-            $table->integer('token');
+            $table->string('token');
             $table->integer('validity');
             $table->boolean('valid')->default(true);;
             $table->timestamps();
