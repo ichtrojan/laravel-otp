@@ -18,7 +18,7 @@ class CreateOtpsTable extends Migration
             $table->string('identifier');
             $table->string('token');
             $table->integer('validity');
-            $table->boolean('valid')->default(true);;
+            $table->boolean('valid')->default(true);
             $table->timestamps();
         });
     }
