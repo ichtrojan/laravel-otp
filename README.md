@@ -111,7 +111,7 @@ Otp::validate(string $identifier, string $token)
 ```php
 <?php
 
-Otp::generate('michael@okoh.co.uk', '282581');
+Otp::validate('michael@okoh.co.uk', '282581');
 ```
 
 #### Responses
