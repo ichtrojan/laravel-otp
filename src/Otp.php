@@ -21,16 +21,16 @@ class Otp extends Facade
      * @param int $digits
      * @param int $validity
      *
-     * @return mixed
+     * @return object
      */
-    protected function generate(string $identifier, int $digits = 4, int $validity = 10)
+    protected function generate(string $identifier, int $digits = 4, int $validity = 10) : object
     {
-        Model::where('identifier', $identifier)->where('valid', true)->delete();
+        Model::identifier($identifier)->valid()->delete();
         $token = str_pad($this->generatePin(), 4, '0', STR_PAD_LEFT);
-        if ($digits === 5) {
+        if (5 === $digits) {
             $token = str_pad($this->generatePin(5), 5, '0', STR_PAD_LEFT);
         }
-        if ($digits === 6) {
+        if (6 === $digits) {
             $token = str_pad($this->generatePin(6), 6, '0', STR_PAD_LEFT);
         }
         Model::create([
@@ -38,30 +38,27 @@ class Otp extends Facade
             'token' => $token,
             'validity' => $validity
         ]);
-        return response()->json([
-            'status' => true,
-            'token' => $token,
-            'message' => 'OTP generated'
+        
+        return sendJson('OTP is valid', [
+            'token' => $token
         ], 201);
+        
     }
 
     /**
      * @param string $identifier
      * @param string $token
-     * @return mixed
+     * @return object
      */
-    protected function validate(string $identifier, string $token)
+    protected function validate(string $identifier, string $token) : object
     {
-        $otp = Model::where('identifier', $identifier)->where('token', $token)->first();
+        $otp = Model::identifier($identifier)->token($token)->first();
 
-        if ($otp === null) {
-            return response()->json([
-                'status' => false,
-                'message' => 'OTP does not exist'
-            ]);
+        if (null === $otp) {
+            return abortJson(404, 'OTP does not exist');
         }
 
-        if ($otp->valid === true) {
+        if (true == $otp->valid) {
             $carbon = new Carbon;
             $now = $carbon->now();
             $validity = $otp->created_at->addMinutes($otp->validity);
@@ -69,25 +66,17 @@ class Otp extends Facade
             if (strtotime($validity) < strtotime($now)) {
                 $otp->valid = false;
                 $otp->save();
-                return response()->json([
-                    'status' => false,
-                    'message' => 'OTP Expired'
-                ]);
+                
+                return abortJson(401, 'OTP Expired');
             }
 
             $otp->valid = false;
             $otp->save();
 
-            return response()->json([
-                'status' => true,
-                'message' => 'OTP is valid'
-            ]);
+            return sendJson('OTP is valid');
         }
 
-        return response()->json([
-            'status' => false,
-            'message' => 'OTP is not valid'
-        ]);
+        return abortJson(400, 'OTP is not valid');
     }
 
     /**

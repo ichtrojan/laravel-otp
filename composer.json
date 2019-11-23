@@ -12,7 +12,10 @@
     "autoload": {
         "psr-4": {
             "Ichtrojan\\Otp\\": "src/"
-        }
+        },
+        "files": [
+            "src/Helpers/Response.php"
+        ]
     },
     "extra": {
         "laravel": {

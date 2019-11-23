@@ -21,4 +21,19 @@ class Otp extends Model
     protected $fillable = [
         'identifier', 'token', 'validity'
     ];
+
+    public function scopeToken($query, $token)
+    {
+        return $query->where('token', $token);
+    }
+
+    public function scopeIdentifier($query, $identifier)
+    {
+        return $query->where('identifier', $identifier);
+    }
+
+    public function scopeValid($query)
+    {
+        return $query->where('valid', true);
+    }
 }
