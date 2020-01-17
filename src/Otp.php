@@ -71,10 +71,10 @@ class Otp extends Facade
                     $otp->valid = false;
                     $otp->save();
 
-                    return response()->json([
+                    return (object)[
                         'status' => false,
                         'message' => 'OTP Expired'
-                    ]);
+                    ];
                 } else {
                     $otp->valid = false;
                     $otp->save();
