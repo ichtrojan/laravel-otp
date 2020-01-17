@@ -22,7 +22,7 @@ class Otp extends Facade
      * @param int $validity
      * @return mixed
      */
-    protected function generate(string $identifier, int $digits = 4, int $validity = 10)
+    public function generate(string $identifier, int $digits = 4, int $validity = 10) : object
     {
         Model::where('identifier', $identifier)->where('valid', true)->delete();
 
@@ -40,11 +40,11 @@ class Otp extends Facade
             'validity' => $validity
         ]);
 
-        return response()->json([
+        return (object)[
             'status' => true,
             'token' => $token,
             'message' => 'OTP generated'
-        ], 201);
+        ];
     }
 
     /**
@@ -52,15 +52,15 @@ class Otp extends Facade
      * @param string $token
      * @return mixed
      */
-    protected function validate(string $identifier, string $token)
+    protected function validate(string $identifier, string $token) : object
     {
         $otp = Model::where('identifier', $identifier)->where('token', $token)->first();
 
         if ($otp == null) {
-            return response()->json([
+            return (object)[
                 'status' => false,
                 'message' => 'OTP does not exist'
-            ]);
+            ];
         } else {
             if ($otp->valid == true) {
                 $carbon = new Carbon;
@@ -79,16 +79,16 @@ class Otp extends Facade
                     $otp->valid = false;
                     $otp->save();
 
-                    return response()->json([
+                    return (object)[
                         'status' => true,
                         'message' => 'OTP is valid'
-                    ]);
+                    ];
                 }
             } else {
-                return response()->json([
+                return (object)[
                     'status' => false,
                     'message' => 'OTP is not valid'
-                ]);
+                ];
             }
         }
     }

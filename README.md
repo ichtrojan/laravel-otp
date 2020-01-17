@@ -65,6 +65,9 @@ php artisan migrate
 
 ## Usage 🧨
 
+>**NOTE**</br>
+>Response are returned as objects. You can access its attributes with the arrow operator (`->`)
+
 ### Generate OTP
 
 ```php
@@ -82,12 +85,12 @@ Otp::generate(string $identifier, int $digits = 4, int $validity = 10)
 ```php
 <?php
 
-Otp::generate('michael@okoh.co.uk', 6, 15);
+$otp = Otp::generate('michael@okoh.co.uk', 6, 15);
 ```
 
 This will generate a six digit OTP that will e valid for 15 minutes and the success response will be:
 
-```json
+```object
 {
   "status": true,
   "token": "282581",
@@ -111,14 +114,14 @@ Otp::validate(string $identifier, string $token)
 ```php
 <?php
 
-Otp::generate('michael@okoh.co.uk', '282581');
+$otp = Otp::generate('michael@okoh.co.uk', '282581');
 ```
 
 #### Responses
 
 **On Success**
 
-```json
+```object
 {
   "status": true,
   "message": "OTP is valid"
@@ -127,7 +130,7 @@ Otp::generate('michael@okoh.co.uk', '282581');
 
 **Does not exist**
 
-```json
+```object
 {
   "status": false,
   "message": "OTP does not exist"
@@ -136,7 +139,7 @@ Otp::generate('michael@okoh.co.uk', '282581');
 
 **Not Valid***
 
-```json
+```object
 {
   "status": false,
   "message": "OTP is not valid"
@@ -145,7 +148,7 @@ Otp::generate('michael@okoh.co.uk', '282581');
 
 **Expired**
 
-```json
+```object
 {
   "status": false,
   "message": "OTP Expired"
