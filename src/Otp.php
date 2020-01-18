@@ -52,7 +52,7 @@ class Otp extends Facade
      * @param string $token
      * @return mixed
      */
-    protected function validate(string $identifier, string $token) : object
+    public function validate(string $identifier, string $token) : object
     {
         $otp = Model::where('identifier', $identifier)->where('token', $token)->first();
 
