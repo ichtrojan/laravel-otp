@@ -1,29 +1,36 @@
 {
-    "name": "ichtrojan/laravel-otp",
+    "name": "kenkioko/laravel-otp",
     "type": "library",
+    "version": "2.0.0",
     "license": "MIT",
     "authors": [
         {
             "name": "Michael Okoh",
-            "email": "michael@okoh.co.uk"
+            "email": "michael@okoh.co.uk",
+            "role": "Owner"
+        },
+        {
+            "name": "Kennedy Kioko",
+            "email": "kmkioko@gmail.com",
+            "role": "Developer (fork)"
         }
     ],
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
-            "Ichtrojan\\Otp\\": "src/"
+            "kenkioko\\OTP\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Ichtrojan\\Otp\\OtpServiceProvider"
+                "Kenkioko\\OTP\\OTPServiceProvider"
             ],
             "aliases": {
-                "Otp": "Ichtrojan\\Otp\\Otp"
+                "OTP": "Kenkioko\\OTP\\OTP"
             }
         }
     },
     "require": {},
-    "description": "A simple package to generate and validate OTPs"
+    "description": "A simple package to generate and validate OTPs. forked from ichtrojan/laravel-otp"
 }

@@ -13,13 +13,17 @@ class CreateOtpsTable extends Migration
      */
     public function up()
     {
-        Schema::create('otps', function (Blueprint $table) {
-            $table->increments('id')->index();
-            $table->string('identifier');
+        Schema::create('otp', function (Blueprint $table) {
+            $table->bigIncrements('id')->index();
+            $table->unsignedBigInteger('user_id');
             $table->string('token');
             $table->integer('validity');
             $table->boolean('valid')->default(true);
             $table->timestamps();
+
+            $table->foreign('user_id')
+                  ->references('id')->on('users')
+                  ->onDelete('restrict');
         });
     }
 
@@ -30,6 +34,6 @@ class CreateOtpsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('otps');
+        Schema::dropIfExists('otp');
     }
 }

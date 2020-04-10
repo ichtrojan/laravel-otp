@@ -1,10 +1,10 @@
 <?php
 
-namespace Ichtrojan\Otp\Models;
+namespace KenKioko\OTP\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Otp extends Model
+class OTP extends Model
 {
     /**
      * The database table used by the model.
@@ -19,6 +19,16 @@ class Otp extends Model
      * @var array
      */
     protected $fillable = [
-        'identifier', 'token', 'validity'
+      'token', 'validity'
     ];
+
+    /**
+     * The OTP owner.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongTo
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
 }

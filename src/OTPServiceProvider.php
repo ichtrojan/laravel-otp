@@ -1,10 +1,10 @@
 <?php
 
-namespace Ichtrojan\Otp;
+namespace KenKioko\OTP;
 
 use Illuminate\Support\ServiceProvider;
 
-class OtpServiceProvider extends ServiceProvider
+class OTPServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
@@ -23,5 +23,8 @@ class OtpServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+        $this->loadTranslationsFrom(__DIR__ . '/translations', 'laravel-otp');
+
+        $this->publishes([__DIR__ . '/translations' => resource_path('lang/vendor/laravel-otp')]);
     }
 }

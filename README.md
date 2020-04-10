@@ -3,13 +3,15 @@
 ## Introduction 🖖
 
 This is a simple package to generate and validate OTPs (One Time Passwords). This can be implemented mostly in Authentication.
+This is a fork from [ichtrojan/laravel-otp](https://github.com/ichtrojan/laravel-otp).
+This version users the `App\User` as the default `$identifier` type instead of `string` type.
 
 ## Installation 💽
 
 Install via composer
 
 ```bash
-composer require ichtrojan/laravel-otp
+composer require kenkioko/laravel-otp
 ```
 
 Add service provider to the `config/app.php` file
@@ -29,7 +31,7 @@ Add service provider to the `config/app.php` file
 
     'providers' => [
         ...
-        Ichtrojan\Otp\OtpServiceProvider::class,
+        Kenkioko\OTP\OTPServiceProvider::class,
     ];
 ...
 ```
@@ -52,7 +54,7 @@ Add alias to the `config/app.php` file
 
     'aliases' => [
         ...
-        'Otp' => Ichtrojan\Otp\Otp::class,
+        'OTP' => Kenkioko\OTP\OTP::class,
     ];
 ...
 ```
@@ -73,10 +75,10 @@ php artisan migrate
 ```php
 <?php
 
-Otp::generate(string $identifier, int $digits = 4, int $validity = 10)
+OTP::generate(App\User $identifier, int $digits = 4, int $validity = 10)
 ```
 
-* `$identifier`: The identity that will be tied to the OTP.
+* `$identifier`: The identity that will be tied to the OTP of type `\App\User::class`.
 * `$digit (optional | default = 4)`: The amount of digits to be generated, can be any of 4, 5 and 6.
 * `$validity (optional | default = 10)`: The validity period of the OTP in minutes.
 
@@ -85,7 +87,7 @@ Otp::generate(string $identifier, int $digits = 4, int $validity = 10)
 ```php
 <?php
 
-$otp = Otp::generate('michael@okoh.co.uk', 6, 15);
+$otp = OTP::generate('michael@okoh.co.uk', 6, 15);
 ```
 
 This will generate a six digit OTP that will be valid for 15 minutes and the success response will be:
@@ -103,10 +105,10 @@ This will generate a six digit OTP that will be valid for 15 minutes and the suc
 ```php
 <?php
 
-Otp::validate(string $identifier, string $token)
+OTP::validate(App\User $identifier, string $token)
 ```
 
-* `$identifier`: The identity that is tied to the OTP.
+* `$identifier`: The identity that is tied to the OTP of type `\App\User::class`.
 * `$token`: The token tied to the identity.
 
 #### Sample
@@ -114,7 +116,7 @@ Otp::validate(string $identifier, string $token)
 ```php
 <?php
 
-$otp = Otp::generate('michael@okoh.co.uk', '282581');
+$otp = OTP::generate('michael@okoh.co.uk', '282581');
 ```
 
 #### Responses

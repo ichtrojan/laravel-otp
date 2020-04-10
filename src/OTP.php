@@ -1,19 +1,20 @@
 <?php
 
-namespace Ichtrojan\Otp;
+namespace KenKioko\OTP;
 
+use App\User;
 use Carbon\Carbon;
-use Ichtrojan\Otp\Models\Otp as Model;
+use KenKioko\OTP\Models\OTP as Model;
 use Illuminate\Support\Facades\Facade;
 
-class Otp extends Facade
+class OTP extends Facade
 {
     /**
      * @return string
      */
     protected static function getFacadeAccessor()
     {
-        return 'Otp';
+        return 'OTP';
     }
 
     /**
@@ -22,8 +23,11 @@ class Otp extends Facade
      * @param int $validity
      * @return mixed
      */
-    public function generate(string $identifier, int $digits = 4, int $validity = 10) : object
+    public function generate(User $identifier, int $digits = 4, int $validity = 10) : object
     {
+        dd($identifier);
+
+
         Model::where('identifier', $identifier)->where('valid', true)->delete();
 
         $token = str_pad($this->generatePin(), 4, '0', STR_PAD_LEFT);
@@ -52,8 +56,10 @@ class Otp extends Facade
      * @param string $token
      * @return mixed
      */
-    public function validate(string $identifier, string $token) : object
+    public function validate(User $identifier, string $token) : object
     {
+        dd($identifier);
+
         $otp = Model::where('identifier', $identifier)->where('token', $token)->first();
 
         if ($otp == null) {
