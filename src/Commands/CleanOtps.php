@@ -2,7 +2,7 @@
 
 namespace namespace Ichtrojan\Otp\Commands;
 
-use Ichtrojan\Otp\Otp;
+use Ichtrojan\Otp\Models\Otp;
 use Illuminate\Console\Command;
 
 class CleanOtps extends Command
