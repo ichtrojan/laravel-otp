@@ -1,6 +1,6 @@
 <?php
 
-namespace namespace Ichtrojan\Otp\Commands;
+namespace Ichtrojan\Otp\Commands;
 
 use Ichtrojan\Otp\Models\Otp;
 use Illuminate\Console\Command;
