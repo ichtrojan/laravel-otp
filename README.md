@@ -155,12 +155,12 @@ $otp = Otp::generate('michael@okoh.co.uk', '282581');
 }
 ```
 
-### Clean used Otps Artisan command
-Artisan command to clean used otps from database. 
+### Delete expired tokens
+You can delete expired tokens by running the following artisan command:
 ```bash
 php artisan otp:clean
 ```
-You can also add this artisan command to `app/Console/Kernal.php` to automatically clean on scheduled 
+You can also add this artisan command to `app/Console/Kernel.php` to automatically clean on scheduled 
 ```php
 <?php
 
