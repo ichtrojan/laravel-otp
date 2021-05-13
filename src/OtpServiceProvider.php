@@ -23,5 +23,9 @@ class OtpServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+        
+         $this->commands([
+            \Ichtrojan\Otp\Commands\CleanOtps::class,
+        ]);
     }
 }

@@ -155,6 +155,21 @@ $otp = Otp::validate('michael@okoh.co.uk', '282581');
 }
 ```
 
+### Delete expired tokens
+You can delete expired tokens by running the following artisan command:
+```bash
+php artisan otp:clean
+```
+You can also add this artisan command to `app/Console/Kernel.php` to automatically clean on scheduled 
+```php
+<?php
+
+protected function schedule(Schedule $schedule)
+{
+    $schedule->command('otp:clean')->daily();
+}
+```
+
 ## Contribution
 
 If you find an issue with this package or you have any suggestion please help out. I am not perfect.
