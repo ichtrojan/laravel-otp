@@ -13,6 +13,7 @@ class OtpServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->bind('otp', Otp::class);
     }
 
     /**
@@ -23,8 +24,8 @@ class OtpServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
-        
-         $this->commands([
+
+        $this->commands([
             \Ichtrojan\Otp\Commands\CleanOtps::class,
         ]);
     }

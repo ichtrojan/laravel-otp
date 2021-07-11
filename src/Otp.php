@@ -4,18 +4,9 @@ namespace Ichtrojan\Otp;
 
 use Carbon\Carbon;
 use Ichtrojan\Otp\Models\Otp as Model;
-use Illuminate\Support\Facades\Facade;
 
-class Otp extends Facade
+class Otp
 {
-    /**
-     * @return string
-     */
-    protected static function getFacadeAccessor()
-    {
-        return 'Otp';
-    }
-
     /**
      * @param string $identifier
      * @param int $digits
@@ -28,22 +19,24 @@ class Otp extends Facade
 
         $token = str_pad($this->generatePin(), 4, '0', STR_PAD_LEFT);
 
-        if ($digits == 5)
+        if ($digits == 5) {
             $token = str_pad($this->generatePin(5), 5, '0', STR_PAD_LEFT);
+        }
 
-        if ($digits == 6)
+        if ($digits == 6) {
             $token = str_pad($this->generatePin(6), 6, '0', STR_PAD_LEFT);
+        }
 
         Model::create([
             'identifier' => $identifier,
-            'token' => $token,
-            'validity' => $validity
+            'token'      => $token,
+            'validity'   => $validity,
         ]);
 
-        return (object)[
-            'status' => true,
-            'token' => $token,
-            'message' => 'OTP generated'
+        return (object) [
+            'status'  => true,
+            'token'   => $token,
+            'message' => 'OTP generated',
         ];
     }
 
@@ -57,9 +50,9 @@ class Otp extends Facade
         $otp = Model::where('identifier', $identifier)->where('token', $token)->first();
 
         if ($otp == null) {
-            return (object)[
-                'status' => false,
-                'message' => 'OTP does not exist'
+            return (object) [
+                'status'  => false,
+                'message' => 'OTP does not exist',
             ];
         } else {
             if ($otp->valid == true) {
@@ -71,23 +64,23 @@ class Otp extends Facade
                     $otp->valid = false;
                     $otp->save();
 
-                    return (object)[
-                        'status' => false,
-                        'message' => 'OTP Expired'
+                    return (object) [
+                        'status'  => false,
+                        'message' => 'OTP Expired',
                     ];
                 } else {
                     $otp->valid = false;
                     $otp->save();
 
-                    return (object)[
-                        'status' => true,
-                        'message' => 'OTP is valid'
+                    return (object) [
+                        'status'  => true,
+                        'message' => 'OTP is valid',
                     ];
                 }
             } else {
-                return (object)[
-                    'status' => false,
-                    'message' => 'OTP is not valid'
+                return (object) [
+                    'status'  => false,
+                    'message' => 'OTP is not valid',
                 ];
             }
         }
@@ -100,7 +93,7 @@ class Otp extends Facade
     private function generatePin($digits = 4)
     {
         $i = 0;
-        $pin = "";
+        $pin = '';
 
         while ($i < $digits) {
             $pin .= mt_rand(0, 9);

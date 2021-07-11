@@ -20,10 +20,12 @@
                 "Ichtrojan\\Otp\\OtpServiceProvider"
             ],
             "aliases": {
-                "Otp": "Ichtrojan\\Otp\\Otp"
+                "Otp": "Ichtrojan\\Otp\\Support\\Facades\\Otp"
             }
         }
     },
-    "require": {},
+    "require": {
+        "illuminate/support": "^6.0|^7.0|^8.0"
+    },
     "description": "A simple package to generate and validate OTPs"
 }
