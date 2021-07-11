@@ -12,7 +12,7 @@ Install via composer
 composer require ichtrojan/laravel-otp
 ```
 
-Add service provider to the `config/app.php` file
+Add service provider to the `config/app.php` file. Skip this if you are using +5.7 version
 
 ```php
 <?php
@@ -26,7 +26,7 @@ Add service provider to the `config/app.php` file
     | this array to grant expanded functionality to your applications.
     |
     */
-
+    // Skit this if you are using +5.7 version
     'providers' => [
         ...
         Ichtrojan\Otp\OtpServiceProvider::class,
@@ -34,7 +34,7 @@ Add service provider to the `config/app.php` file
 ...
 ```
 
-Add alias to the `config/app.php` file
+Add alias to the `config/app.php` file. Skip this if you are using +5.7 version
 
 ```php
 <?php
@@ -65,25 +65,30 @@ php artisan migrate
 
 ## Usage 🧨
 
->**NOTE**</br>
->Response are returned as objects. You can access its attributes with the arrow operator (`->`)
+> **NOTE**</br>
+> Response are returned as objects. You can access its attributes with the arrow operator (`->`)
 
 ### Generate OTP
 
 ```php
 <?php
 
+// or use Ichtrojan\\Otp\\Support\\Facades\\Otp;
+use Otp;
+
 Otp::generate(string $identifier, int $digits = 4, int $validity = 10)
 ```
 
-* `$identifier`: The identity that will be tied to the OTP.
-* `$digit (optional | default = 4)`: The amount of digits to be generated, can be any of 4, 5 and 6.
-* `$validity (optional | default = 10)`: The validity period of the OTP in minutes.
+-   `$identifier`: The identity that will be tied to the OTP.
+-   `$digit (optional | default = 4)`: The amount of digits to be generated, can be any of 4, 5 and 6.
+-   `$validity (optional | default = 10)`: The validity period of the OTP in minutes.
 
 #### Sample
 
 ```php
 <?php
+// or use Ichtrojan\\Otp\\Support\\Facades\\Otp;
+use Otp;
 
 $otp = Otp::generate('michael@okoh.co.uk', 6, 15);
 ```
@@ -102,17 +107,21 @@ This will generate a six digit OTP that will be valid for 15 minutes and the suc
 
 ```php
 <?php
+// or use Ichtrojan\\Otp\\Support\\Facades\\Otp;
+use Otp;
 
 Otp::validate(string $identifier, string $token)
 ```
 
-* `$identifier`: The identity that is tied to the OTP.
-* `$token`: The token tied to the identity.
+-   `$identifier`: The identity that is tied to the OTP.
+-   `$token`: The token tied to the identity.
 
 #### Sample
 
 ```php
 <?php
+// or use Ichtrojan\\Otp\\Support\\Facades\\Otp;
+use Otp;
 
 $otp = Otp::validate('michael@okoh.co.uk', '282581');
 ```
@@ -137,7 +146,7 @@ $otp = Otp::validate('michael@okoh.co.uk', '282581');
 }
 ```
 
-**Not Valid***
+**Not Valid\***
 
 ```object
 {
@@ -156,11 +165,15 @@ $otp = Otp::validate('michael@okoh.co.uk', '282581');
 ```
 
 ### Delete expired tokens
+
 You can delete expired tokens by running the following artisan command:
+
 ```bash
 php artisan otp:clean
 ```
-You can also add this artisan command to `app/Console/Kernel.php` to automatically clean on scheduled 
+
+You can also add this artisan command to `app/Console/Kernel.php` to automatically clean on scheduled
+
 ```php
 <?php
 
