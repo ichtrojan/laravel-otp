@@ -39,7 +39,7 @@ class CleanOtps extends Command
     public function handle()
     {
         try {
-            $otps = Otp::where('valid', 0)->count();
+            $otps = Otp::where('valid', 0)->orWhere('valid_until', '<', now())->count();
 
             $this->info("Found {$otps} expired otps.");
             Otp::where('valid', 0)->delete();
