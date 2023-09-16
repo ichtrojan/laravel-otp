@@ -26,13 +26,7 @@ class Otp extends Facade
     {
         Model::where('identifier', $identifier)->where('valid', true)->delete();
 
-        $token = str_pad($this->generatePin(), 4, '0', STR_PAD_LEFT);
-
-        if ($digits == 5)
-            $token = str_pad($this->generatePin(5), 5, '0', STR_PAD_LEFT);
-
-        if ($digits == 6)
-            $token = str_pad($this->generatePin(6), 6, '0', STR_PAD_LEFT);
+        $token = $this->generatePin($digits);
 
         Model::create([
             'identifier' => $identifier,
@@ -103,7 +97,7 @@ class Otp extends Facade
         $pin = "";
 
         while ($i < $digits) {
-            $pin .= mt_rand(0, 9);
+            $pin .= random_int(0, 9);
             $i++;
         }
 
