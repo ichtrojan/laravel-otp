@@ -103,7 +103,7 @@ class Otp extends Facade
         $pin = "";
 
         while ($i < $digits) {
-            $pin .= mt_rand(0, 9);
+            $pin .= random_int(0, 9);
             $i++;
         }
 
