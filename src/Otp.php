@@ -31,7 +31,8 @@ class Otp extends Facade
         Model::create([
             'identifier' => $identifier,
             'token' => $token,
-            'validity' => $validity
+            'validity' => $validity,
+            'valid' => true,
         ]);
 
         return (object)[
