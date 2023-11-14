@@ -22,11 +22,11 @@ class Otp extends Facade
      * @param int $validity
      * @return mixed
      */
-    public function generate(string $identifier, int $digits = 4, int $validity = 10) : object
+    public static function generate(string $identifier, int $digits = 4, int $validity = 10): object
     {
         Model::where('identifier', $identifier)->where('valid', true)->delete();
 
-        $token = $this->generatePin($digits);
+        $token = self::generatePin($digits);
 
         Model::create([
             'identifier' => $identifier,
@@ -46,7 +46,7 @@ class Otp extends Facade
      * @param string $token
      * @return mixed
      */
-    public function validate(string $identifier, string $token) : object
+    public static function validate(string $identifier, string $token): object
     {
         $otp = Model::where('identifier', $identifier)->where('token', $token)->first();
 
@@ -57,11 +57,11 @@ class Otp extends Facade
             ];
         } else {
             if ($otp->valid == true) {
-                $carbon = new Carbon;
+                $carbon = new Carbon();
                 $now = $carbon->now();
                 $validity = $otp->created_at->addMinutes($otp->validity);
 
-                if (strtotime($validity) < strtotime($now)) {
+                if (strtotime($validity->toDateTimeString()) < strtotime($now->toDateTimeString())) {
                     $otp->valid = false;
                     $otp->save();
 
@@ -91,10 +91,10 @@ class Otp extends Facade
      * @param int $digits
      * @return string
      */
-    private function generatePin($digits = 4)
+    private static function generatePin($digits = 4)
     {
         $i = 0;
-        $pin = "";
+        $pin = '';
 
         while ($i < $digits) {
             $pin .= random_int(0, 9);
