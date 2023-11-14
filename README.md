@@ -63,10 +63,55 @@ Run Migrations
 php artisan migrate
 ```
 
+## If you want to use this package with MongoDB
+
+Create new Otp model with following code
+
+```bash
+php artisan make:model Otp
+```
+
+```php
+<?php
+
+namespace App\Models;
+
+use MongoDB\Laravel\Eloquent\Model;
+
+final class Otp extends Model
+{
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'identifier', 'token', 'validity', 'valid',
+    ];
+}
+
+```
+
+Then use it in your AppServiceProvider provider
+
+```php
+/**
+ * Bootstrap any application services.
+ */
+public function boot(): void
+{
+    // Loader Alias
+    $loader = AliasLoader::getInstance();
+
+    // CUSTOM OTP Model
+    $loader->alias(\Ichtrojan\Otp\Models\Otp::class, \App\Models\Otp::class);
+}
+```
+
 ## Usage 🧨
 
->**NOTE**</br>
->Response are returned as objects. You can access its attributes with the arrow operator (`->`)
+> **NOTE**</br>
+> Response are returned as objects. You can access its attributes with the arrow operator (`->`)
 
 ### Generate OTP
 
@@ -76,9 +121,9 @@ php artisan migrate
 Otp::generate(string $identifier, int $digits = 4, int $validity = 10)
 ```
 
-* `$identifier`: The identity that will be tied to the OTP.
-* `$digit (optional | default = 4)`: The amount of digits to be generated, can be any of 4, 5 and 6.
-* `$validity (optional | default = 10)`: The validity period of the OTP in minutes.
+-   `$identifier`: The identity that will be tied to the OTP.
+-   `$digit (optional | default = 4)`: The amount of digits to be generated, can be any of 4, 5 and 6.
+-   `$validity (optional | default = 10)`: The validity period of the OTP in minutes.
 
 #### Sample
 
@@ -106,8 +151,8 @@ This will generate a six digit OTP that will be valid for 15 minutes and the suc
 Otp::validate(string $identifier, string $token)
 ```
 
-* `$identifier`: The identity that is tied to the OTP.
-* `$token`: The token tied to the identity.
+-   `$identifier`: The identity that is tied to the OTP.
+-   `$token`: The token tied to the identity.
 
 #### Sample
 
@@ -137,7 +182,7 @@ $otp = Otp::validate('michael@okoh.co.uk', '282581');
 }
 ```
 
-**Not Valid***
+**Not Valid\***
 
 ```object
 {
@@ -156,11 +201,15 @@ $otp = Otp::validate('michael@okoh.co.uk', '282581');
 ```
 
 ### Delete expired tokens
+
 You can delete expired tokens by running the following artisan command:
+
 ```bash
 php artisan otp:clean
 ```
-You can also add this artisan command to `app/Console/Kernel.php` to automatically clean on scheduled 
+
+You can also add this artisan command to `app/Console/Kernel.php` to automatically clean on scheduled
+
 ```php
 <?php
 
