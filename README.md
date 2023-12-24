@@ -73,11 +73,14 @@ php artisan migrate
 ```php
 <?php
 
-Otp::generate(string $identifier, int $digits = 4, int $validity = 10)
+use Ichtrojan\Otp\Otp;
+
+(new Otp)->(string $identifier, string $type, int $length = 4, int $validity = 10);
 ```
 
 * `$identifier`: The identity that will be tied to the OTP.
-* `$digit (optional | default = 4)`: The amount of digits to be generated, can be any of 4, 5 and 6.
+* `$type`: The type of token to be generated, supported types are `numeric` and `alpha_numeric`
+* `$length (optional | default = 4)`: The length of token to be generated.
 * `$validity (optional | default = 10)`: The validity period of the OTP in minutes.
 
 #### Sample
@@ -85,7 +88,9 @@ Otp::generate(string $identifier, int $digits = 4, int $validity = 10)
 ```php
 <?php
 
-$otp = Otp::generate('michael@okoh.co.uk', 6, 15);
+use Ichtrojan\Otp\Otp;
+
+$otp = (new Otp)->generate('michael@okoh.co.uk', 'numeric', 6, 15);
 ```
 
 This will generate a six digit OTP that will be valid for 15 minutes and the success response will be:
