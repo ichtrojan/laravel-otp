@@ -45,7 +45,7 @@ use Ichtrojan\Otp\Otp;
 
 use Ichtrojan\Otp\Otp;
 
-$otp = (new Otp)->generate('michael@okoh.co.uk', 'numeric', 6, 15);
+(new Otp)->generate('michael@okoh.co.uk', 'numeric', 6, 15);
 ```
 
 This will generate a six digit OTP that will be valid for 15 minutes and the success response will be:
@@ -63,7 +63,9 @@ This will generate a six digit OTP that will be valid for 15 minutes and the suc
 ```php
 <?php
 
-Otp::validate(string $identifier, string $token)
+use Ichtrojan\Otp\Otp;
+
+(new Otp)->validate(string $identifier, string $token)
 ```
 
 * `$identifier`: The identity that is tied to the OTP.
@@ -74,7 +76,9 @@ Otp::validate(string $identifier, string $token)
 ```php
 <?php
 
-$otp = Otp::validate('michael@okoh.co.uk', '282581');
+use Ichtrojan\Otp\Otp;
+
+(new Otp)->validate('michael@okoh.co.uk', '282581');
 ```
 
 #### Responses
