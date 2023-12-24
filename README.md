@@ -12,51 +12,6 @@ Install via composer
 composer require ichtrojan/laravel-otp
 ```
 
-Add service provider to the `config/app.php` file
-
-```php
-<?php
-   /*
-    |--------------------------------------------------------------------------
-    | Autoloaded Service Providers
-    |--------------------------------------------------------------------------
-    |
-    | The service providers listed here will be automatically loaded on the
-    | request to your application. Feel free to add your own services to
-    | this array to grant expanded functionality to your applications.
-    |
-    */
-
-    'providers' => [
-        ...
-        Ichtrojan\Otp\OtpServiceProvider::class,
-    ];
-...
-```
-
-Add alias to the `config/app.php` file
-
-```php
-<?php
-
-   /*
-    |--------------------------------------------------------------------------
-    | Class Aliases
-    |--------------------------------------------------------------------------
-    |
-    | This array of class aliases will be registered when this application
-    | is started. However, feel free to register as many as you wish as
-    | the aliases are "lazy" loaded so they don't hinder performance.
-    |
-    */
-
-    'aliases' => [
-        ...
-        'Otp' => Ichtrojan\Otp\Otp::class,
-    ];
-...
-```
-
 Run Migrations
 
 ```bash
