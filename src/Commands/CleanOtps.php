@@ -39,11 +39,10 @@ class CleanOtps extends Command
     public function handle()
     {
         try {
-            $otps = Otp::where('valid', 0)->count();
+            $otps = Otp::where('valid', 0)->delete();
 
             $this->info("Found {$otps} expired otps.");
-            Otp::where('valid', 0)->delete();
-            $this->info("expired tokens deleted");
+            $this->info($otps ? "Expired tokens deleted" : "No tokens were deleted");
         } catch (\Exception $e) {
             $this->error("Error:: {$e->getMessage()}");
         }
