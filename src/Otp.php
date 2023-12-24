@@ -5,9 +5,8 @@ namespace Ichtrojan\Otp;
 use Carbon\Carbon;
 use Exception;
 use Ichtrojan\Otp\Models\Otp as Model;
-use Illuminate\Support\Facades\Facade;
 
-class Otp extends Facade
+class Otp
 {
     /**
      * @param string $identifier
@@ -50,44 +49,43 @@ class Otp extends Facade
      * @param string $token
      * @return mixed
      */
-    public function validate(string $identifier, string $token) : object
+    public function validate(string $identifier, string $token): object
     {
         $otp = Model::where('identifier', $identifier)->where('token', $token)->first();
 
-        if ($otp == null) {
-            return (object)[
-                'status' => false,
-                'message' => 'OTP does not exist'
-            ];
-        } else {
-            if ($otp->valid == true) {
-                $carbon = new Carbon;
-                $now = $carbon->now();
+        if ($otp instanceof Model) {
+            if ($otp->valid) {
+                $now = Carbon::now();
                 $validity = $otp->created_at->addMinutes($otp->validity);
 
-                if (strtotime($validity) < strtotime($now)) {
-                    $otp->valid = false;
-                    $otp->save();
+                $otp->update(['valid' => false]);
 
+                if (strtotime($validity) < strtotime($now)) {
                     return (object)[
                         'status' => false,
                         'message' => 'OTP Expired'
                     ];
-                } else {
-                    $otp->valid = false;
-                    $otp->save();
-
-                    return (object)[
-                        'status' => true,
-                        'message' => 'OTP is valid'
-                    ];
                 }
-            } else {
+
+                $otp->update(['valid' => false]);
+
                 return (object)[
-                    'status' => false,
-                    'message' => 'OTP is not valid'
+                    'status' => true,
+                    'message' => 'OTP is valid'
                 ];
             }
+
+            $otp->update(['valid' => false]);
+
+            return (object)[
+                'status' => false,
+                'message' => 'OTP is not valid'
+            ];
+        } else {
+            return (object)[
+                'status' => false,
+                'message' => 'OTP does not exist'
+            ];
         }
     }
 
