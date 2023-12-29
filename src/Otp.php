@@ -63,7 +63,7 @@ class Otp
                 if (strtotime($validity) < strtotime($now)) {
                     return (object)[
                         'status' => false,
-                        'message' => 'OTP Expired'
+                        'message' => trans('validation.ichtrojan_otp.expired')
                     ];
                 }
 
@@ -71,7 +71,7 @@ class Otp
 
                 return (object)[
                     'status' => true,
-                    'message' => 'OTP is valid'
+                    'message' => trans('validation.ichtrojan_otp.valid')
                 ];
             }
 
@@ -79,12 +79,12 @@ class Otp
 
             return (object)[
                 'status' => false,
-                'message' => 'OTP is not valid'
+                'message' => trans('validation.ichtrojan_otp.invalid')
             ];
         } else {
             return (object)[
                 'status' => false,
-                'message' => 'OTP does not exist'
+                'message' => trans('validation.ichtrojan_otp.exists')
             ];
         }
     }
