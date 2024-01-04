@@ -1,5 +1,7 @@
 # Laravel OTP ▲
 
+[![Latest Stable Version](https://poser.pugx.org/ichtrojan/laravel-otp/v/stable)](https://packagist.org/packages/ichtrojan/laravel-otp) [![Total Downloads](https://poser.pugx.org/ichtrojan/laravel-otp/downloads)](https://packagist.org/packages/ichtrojan/laravel-otp) [![License](https://poser.pugx.org/ichtrojan/laravel-otp/license)](https://packagist.org/packages/ichtrojan/laravel-otp)
+
 ## Introduction 🖖
 
 This is a simple package to generate and validate OTPs (One Time Passwords). This can be implemented mostly in Authentication.
