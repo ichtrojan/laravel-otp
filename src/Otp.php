@@ -8,6 +8,11 @@ use Ichtrojan\Otp\Models\Otp as Model;
 
 class Otp
 {
+    public static function new(): Otp
+    {
+        return new static();
+    }
+
     /**
      * @param string $identifier
      * @param string $type
