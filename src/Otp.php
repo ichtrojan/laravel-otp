@@ -16,8 +16,11 @@ class Otp
      * @return mixed
      * @throws Exception
      */
-    public function generate(string $identifier, string $type, int $length = 4, int $validity = 10) : object
+    public function generate(string $identifier, string $type, ?int $length, ?int $validity) : object
     {
+        $length = $length ?: config('ichtrojan-otp.length', 4);
+        $validity = $validity ?: config('ichtrojan-otp.validity', 10);
+        
         Model::where('identifier', $identifier)->where('valid', true)->delete();
 
         switch ($type) {
@@ -63,7 +66,7 @@ class Otp
                 if (strtotime($validity) < strtotime($now)) {
                     return (object)[
                         'status' => false,
-                        'message' => 'OTP Expired'
+                        'message' => trans('validation.ichtrojan_otp.expired')
                     ];
                 }
 
@@ -71,7 +74,7 @@ class Otp
 
                 return (object)[
                     'status' => true,
-                    'message' => 'OTP is valid'
+                    'message' => trans('validation.ichtrojan_otp.valid')
                 ];
             }
 
@@ -79,12 +82,12 @@ class Otp
 
             return (object)[
                 'status' => false,
-                'message' => 'OTP is not valid'
+                'message' => trans('validation.ichtrojan_otp.invalid')
             ];
         } else {
             return (object)[
                 'status' => false,
-                'message' => 'OTP does not exist'
+                'message' => trans('validation.ichtrojan_otp.exists')
             ];
         }
     }
