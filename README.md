@@ -32,7 +32,7 @@ php artisan migrate
 
 use Ichtrojan\Otp\Otp;
 
-(new Otp)->(string $identifier, string $type, int $length = 4, int $validity = 10);
+(new Otp)->generate(string $identifier, string $type, int $length = 4, int $validity = 10);
 ```
 
 * `$identifier`: The identity that will be tied to the OTP.
