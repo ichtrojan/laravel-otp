@@ -56,7 +56,7 @@ class Otp
         if ($otp instanceof Model) {
             if ($otp->valid) {
                 $now = Carbon::now();
-                $validity = $otp->created_at->addMinutes($otp->validity);
+                $validity = $otp->created_at->addMinutes((int) $otp->validity);
 
                 $otp->update(['valid' => false]);
 
