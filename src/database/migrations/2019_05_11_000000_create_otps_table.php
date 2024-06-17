@@ -19,7 +19,8 @@ class CreateOtpsTable extends Migration
             $table->string('token');
             $table->integer('validity');
             $table->boolean('valid')->default(true);
-            $table->timestamps();
+            $table->dateTime('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->dateTime('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'))->onUpdate(DB::raw('CURRENT_TIMESTAMP'));
         });
     }
 
