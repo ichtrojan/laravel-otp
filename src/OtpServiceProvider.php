@@ -13,6 +13,9 @@ class OtpServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->mergeConfigFrom(
+            __DIR__.'/config/otp.php', 'otp'
+        );
     }
 
     /**
@@ -22,8 +25,12 @@ class OtpServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+        $this->publishes([
+            __DIR__.'/config/otp.php' => config_path('otp.php'),
+        ], 'otp-config');
         
+        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+
          $this->commands([
             \Ichtrojan\Otp\Commands\CleanOtps::class,
         ]);

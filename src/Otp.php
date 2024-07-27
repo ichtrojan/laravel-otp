@@ -5,6 +5,7 @@ namespace Ichtrojan\Otp;
 use Carbon\Carbon;
 use Exception;
 use Ichtrojan\Otp\Models\Otp as Model;
+use Illuminate\Support\Facades\Hash;
 
 class Otp
 {
@@ -31,9 +32,11 @@ class Otp
                 throw new Exception("{$type} is not a supported type");
         }
 
+        $useHashing = config('otp.use_hashing', false);
+
         Model::create([
             'identifier' => $identifier,
-            'token' => $token,
+            'token' => $useHashing ? Hash::make($token) : $token,
             'validity' => $validity
         ]);
 
@@ -51,19 +54,31 @@ class Otp
      */
     public function validate(string $identifier, string $token): object
     {
-        $otp = Model::where('identifier', $identifier)->where('token', $token)->first();
+        $otp = Model::where('identifier', $identifier)
+            ->where('valid', true)
+            ->latest('created_at')
+            ->first();
 
         if ($otp instanceof Model) {
             if ($otp->valid) {
                 $now = Carbon::now();
                 $validity = $otp->created_at->addMinutes($otp->validity);
 
-                $otp->update(['valid' => false]);
-
                 if (strtotime($validity) < strtotime($now)) {
+                    $otp->update(['valid' => false]);
                     return (object)[
                         'status' => false,
                         'message' => 'OTP Expired'
+                    ];
+                }
+
+                $useHashing = config('otp.use_hashing', false);
+                $isValid = $useHashing ? Hash::check($token, $otp->token) : $token === $otp->token;
+
+                if (!$isValid) {
+                    return (object)[
+                        'status' => false,
+                        'message' => 'OTP is not valid'
                     ];
                 }
 
@@ -73,20 +88,19 @@ class Otp
                     'status' => true,
                     'message' => 'OTP is valid'
                 ];
-            }
 
-            $otp->update(['valid' => false]);
+            }
 
             return (object)[
                 'status' => false,
                 'message' => 'OTP is not valid'
             ];
-        } else {
-            return (object)[
-                'status' => false,
-                'message' => 'OTP does not exist'
-            ];
         }
+
+        return (object)[
+            'status' => false,
+            'message' => 'OTP not found'
+        ];
     }
 
     /**
