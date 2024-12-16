@@ -47,6 +47,27 @@ class Otp
     /**
      * @param string $identifier
      * @param string $token
+     * @return bool
+     */
+    public function isValid(string $identifier, string $token): bool
+    {
+        $otp = Model::where('identifier', $identifier)->where('token', $token)->first();
+
+        if($otp){
+            $now = Carbon::now();
+            $validity = $otp->created_at->addMinutes($otp->validity);
+
+            if( $otp->valid && (strtotime($validity) >= strtotime($now)))  {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param string $identifier
+     * @param string $token
      * @return mixed
      */
     public function validate(string $identifier, string $token): object
