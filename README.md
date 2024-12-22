@@ -146,7 +146,9 @@ Schedule::command('otp:clean')->daily();
 ```
 
 You can check if your task has been added to the schedule by using the following artisan command:
-`php artisan schedule:list`
+```bash
+php artisan schedule:list
+```
 
 
 ## Contribution
