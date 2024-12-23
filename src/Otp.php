@@ -53,11 +53,10 @@ class Otp
     {
         $otp = Model::where('identifier', $identifier)->where('token', $token)->first();
 
-        if($otp){
-            $now = Carbon::now();
+        if ($otp instanceof Model) {
             $validity = $otp->created_at->addMinutes($otp->validity);
 
-            if( $otp->valid && (strtotime($validity) >= strtotime($now)))  {
+            if (Carbon::now()->lt($validity) && $otp->valid) {
                 return true;
             }
         }
