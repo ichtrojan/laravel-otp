@@ -123,7 +123,7 @@ use Ichtrojan\Otp\Otp;
 
 ### Check The validity of an OTP
 
-You can check the validity of an OTP without marking it as used by running the following method:
+To verify the validity of an OTP without marking it as used, you can use the `isValid` method:
 
 ```php
 <?php
