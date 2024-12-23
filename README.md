@@ -122,13 +122,16 @@ use Ichtrojan\Otp\Otp;
 ```
 
 ### Check The validity of an OTP
+
 You can check the validity of an OTP without marking it as used by running the following method:
+
 ```php
 <?php
 use Ichtrojan\Otp\Otp;
 
 (new Otp)->isValid(string $identifier, string $token);
 ```
+
 This will return a boolean value of the validity of the OTP.
 
 ### Delete expired tokens
