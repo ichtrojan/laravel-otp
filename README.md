@@ -149,6 +149,21 @@ protected function schedule(Schedule $schedule)
 }
 ```
 
+In Laravel 11, the `app/Console/Kernel.php` file has been removed. To schedule a task, you can now add it directly to `routes/console.php` as follows:
+```php
+<?php
+
+use Illuminate\Support\Facades\Schedule;
+
+Schedule::command('otp:clean')->daily();
+```
+
+You can check if your task has been added to the schedule by using the following artisan command:
+```bash
+php artisan schedule:list
+```
+
+
 ## Contribution
 
 If you find an issue with this package or you have any suggestion please help out. I am not perfect.
